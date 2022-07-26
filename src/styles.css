@@ -1,0 +1,177 @@
+body {
+  color: rgb(48, 25, 52);
+  font-family: "Gantari", sans-serif;
+}
+
+p,
+h1,
+h2,
+h3 {
+  text-align: center;
+}
+
+p,
+h3,
+ul {
+  font-weight: 200;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+p,
+ul {
+  font-size: 14px;
+}
+
+input {
+  margin: 10px 0;
+  border: none;
+  border-radius: 2px;
+  opacity: 0.9;
+}
+
+input:focus {
+  outline: none;
+  border: none;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+input::placeholder {
+  color: rgb(48, 25, 52, 0.6);
+  padding-left: 3px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+a {
+  color: rgb(48, 25, 52);
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(48, 25, 52);
+  text-decoration: underline;
+}
+
+.search-button {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: rgb(48, 25, 52, 0.6);
+  transition: all 200ms ease-in-out;
+}
+
+.search-button:hover {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  color: rgba(48, 25, 52, 0.637);
+}
+
+#search-form {
+  position: relative;
+  left: 6px;
+}
+
+.background {
+  max-width: 700px;
+  margin: 30px auto;
+  background-image: url("background2.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 345px;
+  border-radius: 3px;
+}
+
+.content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: relative;
+  top: 50px;
+  border-radius: 3px;
+}
+
+#icon-now {
+  margin-top: 5px;
+  font-size: 30px;
+  margin: 0;
+}
+
+.icon-forecast {
+  font-size: 24px;
+  opacity: 0.8;
+}
+
+.center {
+  text-align: center;
+  width: 100%;
+}
+
+.left {
+  text-align: left;
+}
+
+.cloudiness {
+  position: relative;
+  left: 50px;
+}
+
+.temperature {
+  position: relative;
+  left: 70px;
+}
+
+.city-time {
+  position: relative;
+  left: 6px;
+}
+
+.extra-information {
+  position: relative;
+  left: 40px;
+}
+
+.forecast {
+  margin: 10px auto 0;
+}
+
+.units {
+  display: inline;
+  font-size: 12px;
+  position: relative;
+  top: -7px;
+}
+
+#clouds {
+  text-transform: capitalize;
+}
+
+#current-button {
+  margin: 10px 0;
+  border: none;
+  border-radius: 2px;
+  opacity: 0.9;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: rgb(48, 25, 52, 0.6);
+  transition: all 200ms ease-in-out;
+}
+
+#current-button:hover {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  color: rgba(48, 25, 52, 0.637);
+}
