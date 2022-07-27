@@ -157,6 +157,15 @@ a:hover {
   top: -7px;
 }
 
+.footer {
+  color: rgb(48, 25, 52);
+  font-size: 12px;
+  text-shadow: 1px 1px 3px white;
+  position: relative;
+  left: 50px;
+  top: 55px;
+}
+
 #clouds {
   text-transform: capitalize;
 }
