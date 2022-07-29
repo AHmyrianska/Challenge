@@ -160,9 +160,9 @@ a:hover {
   color: rgb(48, 25, 52);
   font-size: 12px;
   text-shadow: 1px 1px 3px white;
-  position: relative;
-  left: 50px;
-  top: 55px;
+  text-align: right;
+  padding-right: 10px;
+  margin-top: 75px;
 }
 
 #clouds {
