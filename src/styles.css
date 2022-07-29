@@ -82,8 +82,7 @@ a:hover {
 }
 
 #search-form {
-  position: relative;
-  left: 6px;
+  padding-left: 6px;
 }
 
 .background {
