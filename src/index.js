@@ -31,8 +31,6 @@ let currentDayTime = document.querySelector("#current-day-time");
 currentDayTime.innerHTML = formatDate(now);
 
 function showWeather(response) {
-  console.log(response);
-  console.log(response.data.name);
   let currentCity = document.querySelector("#current-city");
   currentCity.innerHTML = response.data.name;
 
@@ -140,7 +138,7 @@ function showFahrenheitTemp(event) {
 
   let fahrenheitTemp = (celsiusTemp * 9) / 5 + 32;
   let degrees = document.querySelector("#degrees");
-  degrees.innerHTML = Math.round(fahrenheitTemp);
+  degrees.innerHTML = `${Math.round(fahrenheitTemp)} `;
 
   let feelsLike = document.querySelector("#feels-like");
   let feelsLikeFahrenheit = (feelsLikeCelsius * 9) / 5 + 32;
@@ -157,7 +155,7 @@ function showCelsiusTemp(event) {
   fahrenheitLink.classList.remove("active");
 
   let degrees = document.querySelector("#degrees");
-  degrees.innerHTML = Math.round(celsiusTemp);
+  degrees.innerHTML = `${Math.round(celsiusTemp)} `;
 
   let feelsLike = document.querySelector("#feels-like");
   feelsLike.innerHTML = Math.round(feelsLikeCelsius);
@@ -182,11 +180,3 @@ let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
 searchCity("Paris");
-
-//function showCelsius() {
-//  let degrees = document.querySelector("#degrees");
-//  degrees.innerHTML = "20";
-//}
-
-//let celsius = document.querySelector("#celsius-link");
-//celsius.addEventListener("click", showCelsius);
