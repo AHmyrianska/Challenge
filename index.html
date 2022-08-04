@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-7 text-nowrap">
                   <form id="search-form">
-                    <input type="text" id="city-input" placeholder="Enter a city" autocomplete="off"/>
+                    <input type="search" id="city-input" placeholder="Enter a city" autocomplete="off"/>
                     <input type="submit" class="search-button" value="Search" />
                   </form>
                 </div>
@@ -45,13 +45,13 @@
             </div>
             <div class="col-3 align-self-end temperature text-nowrap">
               <h2>
-                <span id="degrees"> </span
+                <span id="degrees"></span
                 ><span class="units"
-                  ><a href="#" id="celsius-link">°C</a> |
+                  ><a href="#" id="celsius-link" class="active">°C</a> |
                   <a href="#" id="fahrenheit-link">°F</a></span
                 >
               </h2>
-              <p>Feels like <span id="feels-like"></span>°C</p>
+              <p>Feels like <span id="feels-like"></span><span id="unit">°C</span></p>
             </div>
             <div class="col-3 align-self-end cloudiness">
               <p id="icon-now"><i class="fa-solid fa-cloud center"></i></p>

@@ -30,22 +30,6 @@ function formatDate(date) {
 let currentDayTime = document.querySelector("#current-day-time");
 currentDayTime.innerHTML = formatDate(now);
 
-//function showFahrenheit() {
-// let degrees = document.querySelector("#degrees");
-// degrees.innerHTML = "66";
-//}
-
-//let fahrenheit = document.querySelector("#fahrenheit-link");
-//fahrenheit.addEventListener("click", showFahrenheit);
-
-//function showCelsius() {
-//  let degrees = document.querySelector("#degrees");
-//  degrees.innerHTML = "20";
-//}
-
-//let celsius = document.querySelector("#celsius-link");
-//celsius.addEventListener("click", showCelsius);
-
 function showWeather(response) {
   console.log(response);
   console.log(response.data.name);
@@ -74,6 +58,9 @@ function showWeather(response) {
 
   let icon = response.data.weather[0].icon;
   let iconElement = document.querySelector("#icon-now");
+
+  celsiusTemp = response.data.main.temp;
+  feelsLikeCelsius = response.data.main.feels_like;
 
   if (icon === "01d") {
     iconElement.innerHTML = `<i class="fa-solid fa-sun"></i>`;
@@ -132,11 +119,6 @@ function search(event) {
   searchCity(selectedCity.value);
 }
 
-let searchForm = document.querySelector("#search-form");
-searchForm.addEventListener("submit", search);
-
-searchCity("Paris");
-
 //geolocation button
 function showPosition(position) {
   let lat = position.coords.latitude;
@@ -150,5 +132,61 @@ function getCurrentPosition() {
   navigator.geolocation.getCurrentPosition(showPosition);
 }
 
+function showFahrenheitTemp(event) {
+  event.preventDefault();
+
+  celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
+
+  let fahrenheitTemp = (celsiusTemp * 9) / 5 + 32;
+  let degrees = document.querySelector("#degrees");
+  degrees.innerHTML = Math.round(fahrenheitTemp);
+
+  let feelsLike = document.querySelector("#feels-like");
+  let feelsLikeFahrenheit = (feelsLikeCelsius * 9) / 5 + 32;
+  feelsLike.innerHTML = Math.round(feelsLikeFahrenheit);
+
+  let unit = document.querySelector("#unit");
+  unit.innerHTML = ` °F`;
+}
+
+function showCelsiusTemp(event) {
+  event.preventDefault();
+
+  celsiusLink.classList.add("active");
+  fahrenheitLink.classList.remove("active");
+
+  let degrees = document.querySelector("#degrees");
+  degrees.innerHTML = Math.round(celsiusTemp);
+
+  let feelsLike = document.querySelector("#feels-like");
+  feelsLike.innerHTML = Math.round(feelsLikeCelsius);
+
+  let unit = document.querySelector("#unit");
+  unit.innerHTML = ` °C`;
+}
+
+let fahrenheitLink = document.querySelector("#fahrenheit-link");
+fahrenheitLink.addEventListener("click", showFahrenheitTemp);
+
+let celsiusLink = document.querySelector("#celsius-link");
+celsiusLink.addEventListener("click", showCelsiusTemp);
+
+let celsiusTemp = null;
+let feelsLikeCelsius = null;
+
 let button = document.querySelector("#current-button");
 button.addEventListener("click", getCurrentPosition);
+
+let searchForm = document.querySelector("#search-form");
+searchForm.addEventListener("submit", search);
+
+searchCity("Paris");
+
+//function showCelsius() {
+//  let degrees = document.querySelector("#degrees");
+//  degrees.innerHTML = "20";
+//}
+
+//let celsius = document.querySelector("#celsius-link");
+//celsius.addEventListener("click", showCelsius);
