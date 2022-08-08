@@ -164,6 +164,26 @@ function showCelsiusTemp(event) {
   unit.innerHTML = ` °C`;
 }
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#weather-forecast");
+
+  let forecastHTML = `<div class="row">`;
+  let days = ["Thu", "Fri", "Sat"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `<div class="col-2">
+              <h3>${day}</h3>
+              <i class="fa-solid fa-cloud icon-forecast center"></i>
+              <h4><b>21°</b> 15°</h4>
+            </div>
+           `;
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
 fahrenheitLink.addEventListener("click", showFahrenheitTemp);
 
@@ -180,3 +200,4 @@ let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
 searchCity("Paris");
+displayForecast();
