@@ -30,7 +30,15 @@ function formatDate(date) {
 let currentDayTime = document.querySelector("#current-day-time");
 currentDayTime.innerHTML = formatDate(now);
 
+function getForecast(coordinates) {
+  let apiKey = "f652a8fe769ac19948d6c4ef2bd17e93";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
 function showWeather(response) {
+  getForecast(response.data.coord);
+
   let currentCity = document.querySelector("#current-city");
   currentCity.innerHTML = response.data.name;
 
@@ -164,20 +172,33 @@ function showCelsiusTemp(event) {
   unit.innerHTML = ` °C`;
 }
 
-function displayForecast() {
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "sun"];
+
+  return days[day];
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+
   let forecastElement = document.querySelector("#weather-forecast");
 
   let forecastHTML = `<div class="row">`;
-  let days = ["Thu", "Fri", "Sat"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `<div class="col-2">
-              <h3>${day}</h3>
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `<div class="col-2">
+              <h3>${formatDay(forecastDay.dt)}</h3>
               <i class="fa-solid fa-cloud icon-forecast center"></i>
-              <h4><b>21°</b> 15°</h4>
+              <h4><b>${Math.round(forecastDay.temp.max)}°</b> ${Math.round(
+          forecastDay.temp.min
+        )}°</h4>
             </div>
            `;
+    }
   });
 
   forecastHTML = forecastHTML + `</div>`;
@@ -200,4 +221,4 @@ let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
 searchCity("Paris");
-displayForecast();
+//displayForecast();
