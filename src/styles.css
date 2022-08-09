@@ -35,7 +35,7 @@ h3 {
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 0px;
 }
 
@@ -118,9 +118,11 @@ a:hover {
   margin: 0;
 }
 
-.icon-forecast {
-  font-size: 24px;
+div #icon_forecast {
+  font-size: 20px;
   opacity: 0.8;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 .center {

@@ -34,6 +34,7 @@ function getForecast(coordinates) {
   let apiKey = "f652a8fe769ac19948d6c4ef2bd17e93";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(displayForecast);
+  axios.get(apiUrl).then(displayIconForecast);
 }
 
 function showWeather(response) {
@@ -62,11 +63,11 @@ function showWeather(response) {
   let humidityElement = document.querySelector("#humidity");
   humidityElement.innerHTML = humidity;
 
-  let icon = response.data.weather[0].icon;
-  let iconElement = document.querySelector("#icon-now");
-
   celsiusTemp = response.data.main.temp;
   feelsLikeCelsius = response.data.main.feels_like;
+
+  let icon = response.data.weather[0].icon;
+  let iconElement = document.querySelector("#icon-now");
 
   if (icon === "01d") {
     iconElement.innerHTML = `<i class="fa-solid fa-sun"></i>`;
@@ -192,7 +193,7 @@ function displayForecast(response) {
         forecastHTML +
         `<div class="col-2">
               <h3>${formatDay(forecastDay.dt)}</h3>
-              <i class="fa-solid fa-cloud icon-forecast center"></i>
+              <div id="icon_forecast"></div>
               <h4><b>${Math.round(forecastDay.temp.max)}°</b> ${Math.round(
           forecastDay.temp.min
         )}°</h4>
@@ -203,6 +204,59 @@ function displayForecast(response) {
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
+}
+
+function displayIconForecast(response) {
+  let forecast = response.data.daily;
+  console.log(forecast);
+
+  forecast.forEach(function (forecastDay) {
+    let iconForecast = forecastDay.weather[0].icon;
+    let iconForecastElement = document.querySelector("#icon_forecast");
+    if (iconForecast === "01d") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+    }
+
+    if (iconForecast === "01n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+    }
+
+    if (iconForecast === "02d") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-sun"></i>`;
+    }
+
+    if (iconForecast === "02n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-moon"></i>`;
+    }
+
+    if (iconForecast === "03d" || iconForecast === "03n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud"></i>`;
+    }
+
+    if (iconForecast === "04d" || iconForecast === "04n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud"></i>`;
+    }
+
+    if (iconForecast === "09d" || iconForecast === "09n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-showers-heavy"></i>`;
+    }
+
+    if (iconForecast === "10d" || iconForecast === "10n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-rain"></i>`;
+    }
+
+    if (iconForecast === "11d" || iconForecast === "11n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i>`;
+    }
+
+    if (iconForecast === "13d" || iconForecast === "13n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-snowflake"></i>`;
+    }
+
+    if (iconForecast === "50d" || iconForecast === "50n") {
+      iconForecastElement.innerHTML = `<i class="fa-solid fa-smog"></i>`;
+    }
+  });
 }
 
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
