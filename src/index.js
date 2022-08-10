@@ -1,6 +1,19 @@
-let now = new Date();
+function getForecast(coordinates) {
+  let apiKey = "f652a8fe769ac19948d6c4ef2bd17e93";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
 
-function formatDate(date) {
+function formatDate(timestamp) {
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
   let days = [
     "Sunday",
     "Monday",
@@ -9,32 +22,10 @@ function formatDate(date) {
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
   ];
+  let day = days[date.getDay()];
 
-  let currentDay = days[date.getDay()];
-  let currentHours = date.getHours();
-  if (currentHours < 10) {
-    currentHours = `0${currentHours}`;
-  }
-
-  let currentMinutes = date.getMinutes();
-  if (currentMinutes < 10) {
-    currentMinutes = `0${currentMinutes}`;
-  }
-
-  let formattedDate = `${currentDay}, ${currentHours}:${currentMinutes}`;
-  return formattedDate;
-}
-
-let currentDayTime = document.querySelector("#current-day-time");
-currentDayTime.innerHTML = formatDate(now);
-
-function getForecast(coordinates) {
-  let apiKey = "f652a8fe769ac19948d6c4ef2bd17e93";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(displayForecast);
-  axios.get(apiUrl).then(displayIconForecast);
+  return `${day} ${hours}:${minutes}`;
 }
 
 function showWeather(response) {
@@ -62,6 +53,9 @@ function showWeather(response) {
   let humidity = response.data.main.humidity;
   let humidityElement = document.querySelector("#humidity");
   humidityElement.innerHTML = humidity;
+
+  let dateElement = document.querySelector("#date");
+  dateElement.innerHTML = formatDate(response.data.dt * 1000);
 
   celsiusTemp = response.data.main.temp;
   feelsLikeCelsius = response.data.main.feels_like;
@@ -176,7 +170,7 @@ function showCelsiusTemp(event) {
 function formatDay(timestamp) {
   let date = new Date(timestamp * 1000);
   let day = date.getDay();
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "sun"];
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return days[day];
 }
@@ -189,11 +183,77 @@ function displayForecast(response) {
   let forecastHTML = `<div class="row">`;
   forecast.forEach(function (forecastDay, index) {
     if (index < 6) {
+      let icon = "";
+      if (forecastDay.weather[0].icon === "01d") {
+        icon = `<i class="fa-solid fa-sun"></i>`;
+      }
+
+      if (forecastDay.weather[0].icon === "01n") {
+        icon = `<i class="fa-solid fa-moon"></i>`;
+      }
+
+      if (forecastDay.weather[0].icon === "02d") {
+        icon = `<i class="fa-solid fa-cloud-sun"></i>`;
+      }
+
+      if (forecastDay.weather[0].icon === "02n") {
+        icon = `<i class="fa-solid fa-cloud-moon"></i>`;
+      }
+
+      if (
+        forecastDay.weather[0].icon === "03d" ||
+        forecastDay.weather[0].icon === "03n"
+      ) {
+        icon = `<i class="fa-solid fa-cloud"></i>`;
+      }
+
+      if (
+        forecastDay.weather[0].icon === "04d" ||
+        forecastDay.weather[0].icon === "04n"
+      ) {
+        icon = `<i class="fa-solid fa-cloud"></i>`;
+      }
+
+      if (
+        forecastDay.weather[0].icon === "09d" ||
+        forecastDay.weather[0].icon === "09n"
+      ) {
+        icon = `<i class="fa-solid fa-cloud-showers-heavy"></i>`;
+      }
+
+      if (
+        forecastDay.weather[0].icon === "10d" ||
+        forecastDay.weather[0].icon === "10n"
+      ) {
+        icon = `<i class="fa-solid fa-cloud-rain"></i>`;
+      }
+
+      if (
+        forecastDay.weather[0].icon === "11d" ||
+        forecastDay.weather[0].icon === "11n"
+      ) {
+        icon = `<i class="fa-solid fa-cloud-bolt"></i>`;
+      }
+
+      if (
+        forecastDay.weather[0].icon === "13d" ||
+        forecastDay.weather[0].icon === "13n"
+      ) {
+        icon = `<i class="fa-solid fa-snowflake"></i>`;
+      }
+
+      if (
+        forecastDay.weather[0].icon === "50d" ||
+        forecastDay.weather[0].icon === "50n"
+      ) {
+        icon = `<i class="fa-solid fa-smog"></i>`;
+      }
+
       forecastHTML =
         forecastHTML +
         `<div class="col-2">
               <h3>${formatDay(forecastDay.dt)}</h3>
-              <div id="icon_forecast"></div>
+              <div id="icon_forecast">${icon}</div>
               <h4><b>${Math.round(forecastDay.temp.max)}°</b> ${Math.round(
           forecastDay.temp.min
         )}°</h4>
@@ -204,59 +264,6 @@ function displayForecast(response) {
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
-}
-
-function displayIconForecast(response) {
-  let forecast = response.data.daily;
-  console.log(forecast);
-
-  forecast.forEach(function (forecastDay) {
-    let iconForecast = forecastDay.weather[0].icon;
-    let iconForecastElement = document.querySelector("#icon_forecast");
-    if (iconForecast === "01d") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-sun"></i>`;
-    }
-
-    if (iconForecast === "01n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-    }
-
-    if (iconForecast === "02d") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-sun"></i>`;
-    }
-
-    if (iconForecast === "02n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-moon"></i>`;
-    }
-
-    if (iconForecast === "03d" || iconForecast === "03n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud"></i>`;
-    }
-
-    if (iconForecast === "04d" || iconForecast === "04n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud"></i>`;
-    }
-
-    if (iconForecast === "09d" || iconForecast === "09n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-showers-heavy"></i>`;
-    }
-
-    if (iconForecast === "10d" || iconForecast === "10n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-rain"></i>`;
-    }
-
-    if (iconForecast === "11d" || iconForecast === "11n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-cloud-bolt"></i>`;
-    }
-
-    if (iconForecast === "13d" || iconForecast === "13n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-snowflake"></i>`;
-    }
-
-    if (iconForecast === "50d" || iconForecast === "50n") {
-      iconForecastElement.innerHTML = `<i class="fa-solid fa-smog"></i>`;
-    }
-  });
 }
 
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
@@ -275,4 +282,3 @@ let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
 searchCity("Paris");
-//displayForecast();
