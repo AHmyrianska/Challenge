@@ -4,8 +4,41 @@ function getForecast(coordinates) {
   axios.get(apiUrl).then(displayForecast);
 }
 
-function formatDate(timestamp) {
+// function formatDate(timestamp) {
+//   let date = new Date(timestamp);
+//   let hours = date.getHours();
+//   if (hours < 10) {
+//     hours = `0${hours}`;
+//   }
+//   let minutes = date.getMinutes();
+//   if (minutes < 10) {
+//     minutes = `0${minutes}`;
+//   }
+//   let days = [
+//     "Sunday",
+//     "Monday",
+//     "Tuesday",
+//     "Wednesday",
+//     "Thursday",
+//     "Friday",
+//     "Saturday",
+//   ];
+//   let day = days[date.getDay()];
+
+//   return `${day} ${hours}:${minutes}`;
+// }
+
+function getDate(coordinates) {
+  let apiKey = `ea4a7c572374494aa9f15c89c00a49a3`;
+  let apiUrl = `https://api.ipgeolocation.io/timezone?apiKey=${apiKey}&lat=${coordinates.lat}&long=${coordinates.lon}`;
+  axios.get(apiUrl).then(displayDate);
+}
+
+function displayDate(response) {
+  console.log(response.data);
+  let timestamp = response.data.date_time_unix * 1000;
   let date = new Date(timestamp);
+  console.log(date);
   let hours = date.getHours();
   if (hours < 10) {
     hours = `0${hours}`;
@@ -25,11 +58,13 @@ function formatDate(timestamp) {
   ];
   let day = days[date.getDay()];
 
-  return `${day} ${hours}:${minutes}`;
+  let dateElement = document.querySelector("#date");
+  dateElement.innerHTML = `${day} ${hours}:${minutes}`;
 }
 
 function showWeather(response) {
   getForecast(response.data.coord);
+  getDate(response.data.coord);
 
   let currentCity = document.querySelector("#current-city");
   currentCity.innerHTML = response.data.name;
@@ -53,9 +88,6 @@ function showWeather(response) {
   let humidity = response.data.main.humidity;
   let humidityElement = document.querySelector("#humidity");
   humidityElement.innerHTML = humidity;
-
-  let dateElement = document.querySelector("#date");
-  dateElement.innerHTML = formatDate(response.data.dt * 1000);
 
   celsiusTemp = response.data.main.temp;
   feelsLikeCelsius = response.data.main.feels_like;
