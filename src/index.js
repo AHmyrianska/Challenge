@@ -133,40 +133,6 @@ function getCurrentPosition() {
   navigator.geolocation.getCurrentPosition(showPosition);
 }
 
-function showFahrenheitTemp(event) {
-  event.preventDefault();
-
-  celsiusLink.classList.remove("active");
-  fahrenheitLink.classList.add("active");
-
-  let fahrenheitTemp = (celsiusTemp * 9) / 5 + 32;
-  let degrees = document.querySelector("#degrees");
-  degrees.innerHTML = `${Math.round(fahrenheitTemp)} `;
-
-  let feelsLike = document.querySelector("#feels-like");
-  let feelsLikeFahrenheit = (feelsLikeCelsius * 9) / 5 + 32;
-  feelsLike.innerHTML = Math.round(feelsLikeFahrenheit);
-
-  let unit = document.querySelector("#unit");
-  unit.innerHTML = ` °F`;
-}
-
-function showCelsiusTemp(event) {
-  event.preventDefault();
-
-  celsiusLink.classList.add("active");
-  fahrenheitLink.classList.remove("active");
-
-  let degrees = document.querySelector("#degrees");
-  degrees.innerHTML = `${Math.round(celsiusTemp)} `;
-
-  let feelsLike = document.querySelector("#feels-like");
-  feelsLike.innerHTML = Math.round(feelsLikeCelsius);
-
-  let unit = document.querySelector("#unit");
-  unit.innerHTML = ` °C`;
-}
-
 function formatDay(timestamp) {
   let date = new Date(timestamp * 1000);
   let day = date.getDay();
@@ -265,15 +231,6 @@ function displayForecast(response) {
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
-
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-fahrenheitLink.addEventListener("click", showFahrenheitTemp);
-
-let celsiusLink = document.querySelector("#celsius-link");
-celsiusLink.addEventListener("click", showCelsiusTemp);
-
-let celsiusTemp = null;
-let feelsLikeCelsius = null;
 
 let button = document.querySelector("#current-button");
 button.addEventListener("click", getCurrentPosition);

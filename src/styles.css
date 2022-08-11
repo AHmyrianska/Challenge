@@ -173,14 +173,6 @@ div #icon_forecast {
   margin-top: 75px;
 }
 
-.temperature .active {
-  cursor: default;
-}
-
-.temperature .active:hover {
-  text-decoration: none;
-}
-
 #clouds {
   text-transform: capitalize;
 }
