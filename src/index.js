@@ -4,30 +4,6 @@ function getForecast(coordinates) {
   axios.get(apiUrl).then(displayForecast);
 }
 
-// function formatDate(timestamp) {
-//   let date = new Date(timestamp);
-//   let hours = date.getHours();
-//   if (hours < 10) {
-//     hours = `0${hours}`;
-//   }
-//   let minutes = date.getMinutes();
-//   if (minutes < 10) {
-//     minutes = `0${minutes}`;
-//   }
-//   let days = [
-//     "Sunday",
-//     "Monday",
-//     "Tuesday",
-//     "Wednesday",
-//     "Thursday",
-//     "Friday",
-//     "Saturday",
-//   ];
-//   let day = days[date.getDay()];
-
-//   return `${day} ${hours}:${minutes}`;
-// }
-
 function getDate(coordinates) {
   let apiKey = `ea4a7c572374494aa9f15c89c00a49a3`;
   let apiUrl = `https://api.ipgeolocation.io/timezone?apiKey=${apiKey}&lat=${coordinates.lat}&long=${coordinates.lon}`;
@@ -35,31 +11,41 @@ function getDate(coordinates) {
 }
 
 function displayDate(response) {
-  console.log(response.data);
-  let timestamp = response.data.date_time_unix * 1000;
-  let date = new Date(timestamp);
-  console.log(date);
-  let hours = date.getHours();
-  if (hours < 10) {
-    hours = `0${hours}`;
+  let day = response.data.date_time_wti.slice(0, -27);
+
+  let time = response.data.time_24.slice(0, -3);
+  let correctedDay = "";
+
+  if (day === "Mon" || day === "Mon,") {
+    correctedDay = "Monday";
   }
-  let minutes = date.getMinutes();
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
+
+  if (day === "Tue" || day === "Tue,") {
+    correctedDay = "Tuesday";
   }
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  let day = days[date.getDay()];
+
+  if (day === "Wed" || day === "Wed,") {
+    correctedDay = "Wednesday";
+  }
+
+  if (day === "Thu" || day === "Thu,") {
+    correctedDay = "Thursday";
+  }
+
+  if (day === "Fri" || day === "Fri,") {
+    correctedDay = "Friday";
+  }
+
+  if (day === "Sat" || day === "Sat,") {
+    correctedDay = "Saturday";
+  }
+
+  if (day === "Sun" || day === "Sun,") {
+    correctedDay = "Sunday";
+  }
 
   let dateElement = document.querySelector("#date");
-  dateElement.innerHTML = `${day} ${hours}:${minutes}`;
+  dateElement.innerHTML = `${correctedDay} ${time}`;
 }
 
 function showWeather(response) {
